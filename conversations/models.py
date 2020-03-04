@@ -5,10 +5,13 @@ from core import models as core_models
 class Conversation(core_models.TimeStampedModel):
     """ Conversation Model Definition """
 
-    parcitipants = models.ManyToManyField("users.User", blank=True)
+    participants = models.ManyToManyField("users.User", blank=True)
 
     def __str__(self):
-        return str(self.created)
+        usernames = []
+        for user in self.participants.all():
+            usernames.append(user.username)
+        return ", ".join(usernames)
 
 
 class Message(core_models.TimeStampedModel):
